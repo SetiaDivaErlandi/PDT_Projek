@@ -15,23 +15,41 @@ if (isset($_POST['ajukan_pinjam'])) {
     $tgl_pinjam = date('Y-m-d');
     $tgl_kembali = mysqli_real_escape_string($conn, $_POST['tgl_kembali']);
 
-    $cek_stok = mysqli_query($conn, "SELECT stok FROM inventaris WHERE id_alat = '$id_alat'");
-    $data_stok = mysqli_fetch_assoc($cek_stok);
+    // =========================================================
+    // IMPLEMENTASI MATERI: DATABASE TRANSACTION (START)
+    // =========================================================
+    mysqli_begin_transaction($conn);
 
-    if ($jumlah > $data_stok['stok']) {
-        $error = "Gagal mengajukan! Jumlah melebihi sisa stok laboratorium.";
-    } elseif ($jumlah <= 0) {
-        $error = "Gagal mengajukan! Jumlah pinjam minimal 1 pcs.";
-    } else {
+    try {
+        // Cek stok dengan fitur Row Locking (FOR UPDATE) demi keamanan data terdistribusi
+        $cek_stok = mysqli_query($conn, "SELECT stok FROM inventaris WHERE id_alat = '$id_alat' FOR UPDATE");
+        $data_stok = mysqli_fetch_assoc($cek_stok);
+
+        if ($jumlah > $data_stok['stok']) {
+            throw new Exception("Gagal mengajukan! Jumlah melebihi sisa stok laboratorium.");
+        } elseif ($jumlah <= 0) {
+            throw new Exception("Gagal mengajukan! Jumlah pinjam minimal 1 pcs.");
+        }
+
+        // Jalankan Query Insert Data Transaksi
         $query = "INSERT INTO peminjaman (id_user, id_alat, jumlah, tgl_pinjam, tgl_kembali, status) 
                   VALUES ('$id_user', '$id_alat', '$jumlah', '$tgl_pinjam', '$tgl_kembali', 'menunggu')";
         
-        if (mysqli_query($conn, $query)) {
-            $success = "Pengajuan berhasil dikirim! Silakan cek di halaman Riwayat.";
-        } else {
-            $error = "Terjadi kesalahan database: " . mysqli_error($conn);
+        if (!mysqli_query($conn, $query)) {
+            throw new Exception("Gagal menyimpan data transaksi ke database.");
         }
+
+        // Jika semua operasi sukses, simpan secara permanen
+        mysqli_commit($conn);
+        $success = "Pengajuan berhasil dikirim via Secure Database Transaction!";
+    } catch (Exception $e) {
+        // Jika ada kesalahan/stok habis, batalkan semua perubahan data
+        mysqli_rollback($conn);
+        $error = $e->getMessage();
     }
+    // =========================================================
+    // IMPLEMENTASI MATERI: DATABASE TRANSACTION (END)
+    // =========================================================
 }
 
 $katalog = mysqli_query($conn, "SELECT * FROM inventaris");
