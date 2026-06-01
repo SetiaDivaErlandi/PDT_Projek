@@ -29,7 +29,7 @@ CREATE TABLE `inventaris` (
   `stok` int NOT NULL,
   `deskripsi` text,
   PRIMARY KEY (`id_alat`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `inventaris` (
 
 LOCK TABLES `inventaris` WRITE;
 /*!40000 ALTER TABLE `inventaris` DISABLE KEYS */;
-INSERT INTO `inventaris` VALUES (1,'Mikroskop Binokuler',10,'Mikroskop laboratorium biologi'),(2,'Solder Listrik 60W',15,'Solder untuk praktikum elektro'),(3,'Arduino Uno R3',16,'Microcontroller kit IoT');
+INSERT INTO `inventaris` VALUES (1,'Mikroskop Binokuler',10,'Mikroskop laboratorium biologi'),(2,'Solder Listrik 60W',15,'Solder untuk praktikum elektro'),(3,'Arduino Uno R3',20,'Microcontroller kit IoT'),(4,'termometer',20,'alat pengecek suhu badan'),(5,'Mikroskop Binokuler',10,'Mikroskop laboratorium biologi'),(6,'termometer',20,'alat pengecek suhu badan');
 /*!40000 ALTER TABLE `inventaris` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +62,7 @@ CREATE TABLE `peminjaman` (
   KEY `id_alat` (`id_alat`),
   CONSTRAINT `peminjaman_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`),
   CONSTRAINT `peminjaman_ibfk_2` FOREIGN KEY (`id_alat`) REFERENCES `inventaris` (`id_alat`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +71,7 @@ CREATE TABLE `peminjaman` (
 
 LOCK TABLES `peminjaman` WRITE;
 /*!40000 ALTER TABLE `peminjaman` DISABLE KEYS */;
-INSERT INTO `peminjaman` VALUES (1,3,1,2,'2026-05-31','2026-05-31','kembali'),(2,3,2,2,'2026-05-31','2026-05-31','kembali'),(3,3,3,4,'2026-05-31','2026-05-31','dipinjam');
+INSERT INTO `peminjaman` VALUES (1,3,1,2,'2026-05-31','2026-05-31','kembali'),(2,3,2,2,'2026-05-31','2026-05-31','kembali'),(3,3,3,4,'2026-05-31','2026-05-31','kembali'),(4,3,3,3,'2026-05-31','2026-05-31','kembali'),(5,4,3,1,'2026-05-31','2026-06-27','kembali');
 /*!40000 ALTER TABLE `peminjaman` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -116,7 +116,7 @@ CREATE TABLE `users` (
   `role` enum('admin','mahasiswa') NOT NULL,
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'adminlab','admin123','admin'),(3,'oci','123','mahasiswa');
+INSERT INTO `users` VALUES (1,'adminlab','admin123','admin'),(3,'oci','123','mahasiswa'),(4,'velix','123456','mahasiswa');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -175,4 +175,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-31 22:04:10
+-- Dump completed on 2026-06-01 11:17:49

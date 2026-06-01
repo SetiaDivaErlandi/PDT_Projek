@@ -79,19 +79,6 @@ if (!isset($_SESSION['username'])) {
                     </div>
                 </div>
             </div>
-            
-            <div class="col-md-3">
-                <div class="card h-100 shadow-sm card-menu">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div>
-                            <h5 class="card-title fw-bold text-danger">Backup Database (.SQL)</h5>
-                            <p class="card-text text-muted small">Ekspor seluruh data transaksional sistem ke bentuk file SQL cadangan secara instan.</p>
-                        </div>
-                        <a href="backup.php" class="btn btn-outline-danger btn-sm w-100 mt-3 fw-semibold">Jalankan Backup</a>
-                    </div>
-                </div>
-            </div>
-        </div>
 
     <?php else: ?>
         <h5 class="fw-bold text-dark text-uppercase mb-3 tracking-wide">Layanan Mahasiswa</h5>
