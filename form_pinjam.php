@@ -12,7 +12,7 @@ $id_user = $_SESSION['id_user'];
 if (isset($_POST['ajukan_pinjam'])) {
     $id_alat = mysqli_real_escape_string($conn, $_POST['id_alat']);
     $jumlah = mysqli_real_escape_string($conn, $_POST['jumlah']);
-    $tgl_pinjam = date('Y-m-d');
+    $tgl_pinjam = date('Y-m-d H:i:s');
     $tgl_kembali = mysqli_real_escape_string($conn, $_POST['tgl_kembali']);
 
     // =========================================================

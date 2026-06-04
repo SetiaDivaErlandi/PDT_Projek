@@ -8,7 +8,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
     exit;
 }
 
-// Logika Proses Validasi Admin (Trigger otomatis terpicu di MySQL)
+// Logika Proses Validasi Admin
 if (isset($_GET['action']) && isset($_GET['id'])) {
     $id_pinjam = mysqli_real_escape_string($conn, $_GET['id']);
     $action = $_GET['action'];
@@ -26,10 +26,6 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     }
 }
 
-// ============================================================================================
-// IMPLEMENTASI MATERI: MENGGUNAKAN VIEW & STORED FUNCTION DATABASE
-// Menyesuaikan parameter hitung_total_pinjam menggunakan id_pinjam sesuai dengan kolom VIEW
-// ============================================================================================
 $query_request = "SELECT *, hitung_total_pinjam(id_user) as total_aktif FROM view_laporan_peminjaman ORDER BY id_pinjam DESC";
 $requests = mysqli_query($conn, $query_request);
 ?>
@@ -66,8 +62,10 @@ $requests = mysqli_query($conn, $query_request);
                         <th>Mahasiswa</th>
                         <th>Alat Praktikum</th>
                         <th>Jumlah</th>
+                        <th>Tanggal Pinjam</th>
+                        <th>Jam Pinjam</th>
                         <th>Batas Kembali</th>
-                        <th>Total Pinjam Aktif (Function)</th>
+                        <th>Total Pinjam Aktif</th>
                         <th>Status Saat Ini</th>
                         <th>Aksi Admin</th>
                     </tr>
@@ -79,8 +77,11 @@ $requests = mysqli_query($conn, $query_request);
                             <td class="fw-bold text-dark"><?php echo $row['nama_mahasiswa']; ?></td>
                             <td class="text-start"><?php echo $row['nama_alat']; ?></td>
                             <td><?php echo $row['jumlah']; ?> Pcs</td>
+                            
+                            <td><?php echo date('d-m-Y', strtotime($row['tgl_pinjam'])); ?></td>
+                            <td><?php echo date('H:i', strtotime($row['tgl_pinjam'])); ?></td>
+                            
                             <td><?php echo date('d-m-Y', strtotime($row['tgl_kembali'])); ?></td>
-                            <!-- Kolom Hasil Penghitungan dari Stored Function Database -->
                             <td><span class="badge bg-dark"><?php echo $row['total_aktif']; ?> Item Aktif</span></td>
                             <td>
                                 <?php 
@@ -108,7 +109,7 @@ $requests = mysqli_query($conn, $query_request);
                         <?php endwhile; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="7" class="text-center py-4 text-muted">Belum ada riwayat transaksi pengajuan.</td>
+                            <td colspan="9" class="text-center py-4 text-muted">Belum ada riwayat transaksi pengajuan.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>

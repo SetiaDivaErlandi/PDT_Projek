@@ -48,6 +48,7 @@ $riwayat = mysqli_query($conn, $query_riwayat);
                         <th>Alat yang Diajukan</th>
                         <th>Jumlah</th>
                         <th>Tanggal Pinjam</th>
+                        <th>Jam Pinjam</th>
                         <th>Batas Pengembalian</th>
                         <th>Status Validasi</th>
                     </tr>
@@ -59,7 +60,10 @@ $riwayat = mysqli_query($conn, $query_riwayat);
                             <td><?php echo $no++; ?></td>
                             <td class="text-start fw-bold text-secondary"><?php echo $row['nama_alat']; ?></td>
                             <td><?php echo $row['jumlah']; ?> Pcs</td>
+                            
                             <td><?php echo date('d-m-Y', strtotime($row['tgl_pinjam'])); ?></td>
+                            <td><?php echo date('H:i', strtotime($row['tgl_pinjam'])); ?></td>
+                            
                             <td><?php echo date('d-m-Y', strtotime($row['tgl_kembali'])); ?></td>
                             <td>
                                 <?php 
@@ -78,7 +82,7 @@ $riwayat = mysqli_query($conn, $query_riwayat);
                         <?php endwhile; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="6" class="text-center py-4 text-muted">Kamu belum pernah membuat pengajuan peminjaman alat apa pun.</td>
+                            <td colspan="7" class="text-center py-4 text-muted">Kamu belum pernah membuat pengajuan peminjaman alat apa pun.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>

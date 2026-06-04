@@ -1,4 +1,7 @@
 <?php
+// Set zona waktu ke Waktu Indonesia Barat (WIB)
+date_default_timezone_set('Asia/Jakarta');
+
 $host = "localhost";
 $user = "root";
 $pass = "";
